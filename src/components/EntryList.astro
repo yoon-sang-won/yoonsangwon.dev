@@ -1,0 +1,47 @@
+---
+import type { PublishedEntry } from '../lib/site';
+import { collectionInfo, formatDate, urlFor } from '../lib/site';
+
+interface Props {
+  entries: PublishedEntry[];
+  showDescription?: boolean;
+  showCollection?: boolean;
+  emptyMessage?: string;
+}
+
+const {
+  entries,
+  showDescription = false,
+  showCollection = false,
+  emptyMessage = '공개된 글이 아직 없습니다.',
+} = Astro.props;
+---
+
+{
+  entries.length > 0 ? (
+    <ul class="entry-list">
+      {entries.map((entry) => (
+        <li>
+          <div class="entry-row">
+            <a
+              class="entry-title"
+              href={urlFor(`${entry.collection}/${entry.id}/`)}
+            >
+              {showCollection && `[${entry.collection === 'notes' ? 'Note' : collectionInfo[entry.collection].title}] `}
+              {entry.data.title}
+            </a>
+            <p class="entry-date">
+              <time datetime={formatDate(entry.data.published)}>{formatDate(entry.data.published)}</time>
+              {entry.data.updated && formatDate(entry.data.updated) !== formatDate(entry.data.published) && <>{' · 수정 '}<time datetime={formatDate(entry.data.updated)}>{formatDate(entry.data.updated)}</time></>}
+            </p>
+            {showDescription && entry.data.description && (
+              <p class="entry-description">{entry.data.description}</p>
+            )}
+          </div>
+        </li>
+      ))}
+    </ul>
+  ) : (
+    <p class="notice">{emptyMessage}</p>
+  )
+}

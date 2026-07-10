@@ -1,0 +1,98 @@
+---
+import '../styles/global.css';
+import { SITE_DESCRIPTION, SITE_NAME, SITE_TAGLINE, urlFor } from '../lib/site';
+import { serializeJsonLd, websiteJsonLd } from '../lib/structured-data';
+
+interface Props {
+  title?: string;
+  description?: string;
+  home?: boolean;
+  type?: 'website' | 'article';
+  noindex?: boolean;
+  canonicalPath?: string;
+  structuredData?: unknown;
+}
+
+const {
+  title,
+  description = SITE_DESCRIPTION,
+  home = false,
+  type = 'website',
+  noindex = false,
+  canonicalPath,
+  structuredData,
+} = Astro.props;
+const pageTitle = title ? `${title} — ${SITE_NAME}` : SITE_NAME;
+const canonical = new URL(canonicalPath ? urlFor(canonicalPath) : Astro.url.pathname, Astro.site);
+const rssUrl = new URL(urlFor('rss.xml'), Astro.site);
+const sitemapUrl = new URL(urlFor('sitemap-index.xml'), Astro.site);
+const jsonLd = structuredData ?? (home ? websiteJsonLd(Astro.site!) : undefined);
+const navItems = [
+  ['Writing', 'writing/'],
+  ['Notes', 'notes/'],
+  ['Lab', 'lab/'],
+  ['Archive', 'archive/'],
+  ['About', 'about/'],
+  ['Colophon', 'colophon/'],
+  ['RSS', 'rss.xml'],
+];
+const isCurrent = (path: string) =>
+  Astro.url.pathname.replace(/\/+$/, '') === urlFor(path).replace(/\/+$/, '');
+---
+
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="generator" content={Astro.generator} />
+    <link rel="icon" href="data:," />
+    <title>{pageTitle}</title>
+    <meta name="description" content={description} />
+    {noindex && <meta name="robots" content="noindex" />}
+    <link rel="canonical" href={canonical} />
+    <link rel="alternate" type="application/rss+xml" title={`${SITE_NAME} RSS`} href={rssUrl} />
+    <link rel="sitemap" href={sitemapUrl} />
+    <meta property="og:type" content={type} />
+    <meta property="og:locale" content="ko_KR" />
+    <meta property="og:site_name" content={SITE_NAME} />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    {jsonLd && <script is:inline type="application/ld+json" set:html={serializeJsonLd(jsonLd)} />}
+  </head>
+  <body>
+    <a class="skip-link" href="#main-content">본문으로 건너뛰기</a>
+    <header class="site-header site-shell">
+      {
+        home ? (
+          <>
+            <h1 class="site-title">{SITE_NAME}</h1>
+            <p class="site-description">{SITE_TAGLINE}</p>
+          </>
+        ) : (
+          <>
+            <p class="site-title"><a href={urlFor()}>{SITE_NAME}</a></p>
+            <nav class="site-nav" aria-label="주요 메뉴">
+              <ul>
+                {navItems.map(([label, path]) => (
+                  <li><a href={urlFor(path)} aria-current={isCurrent(path) ? 'page' : undefined} aria-label={label === 'RSS' ? 'RSS로 새 글 구독하기' : undefined}>{label}</a></li>
+                ))}
+              </ul>
+            </nav>
+          </>
+        )
+      }
+    </header>
+    <hr />
+    <main id="main-content" class="site-shell" tabindex="-1">
+      <slot />
+    </main>
+    <hr />
+    <footer class="site-footer site-shell">
+      <p>© 2026 Yoon Sangwon.</p>
+      <p>Astro로 정적 생성했으며, 핵심 콘텐츠는 클라이언트 JavaScript 없이 이용할 수 있습니다.</p>
+      <p><a href={urlFor('rss.xml')} aria-label="RSS로 새 글 구독하기">RSS</a> · <a href={urlFor('colophon/')}>사이트 제작 정보</a></p>
+    </footer>
+  </body>
+</html>

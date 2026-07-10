@@ -1,0 +1,14 @@
+---
+import EntryList from '../../components/EntryList.astro';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { collectionInfo, getPublished } from '../../lib/site';
+
+const entries = await getPublished('notes');
+const info = collectionInfo.notes;
+---
+
+<BaseLayout title={info.title} description={info.description}>
+  <h1>{info.title}</h1>
+  <p class="section-intro">{info.description}</p>
+  <EntryList entries={entries} showDescription />
+</BaseLayout>

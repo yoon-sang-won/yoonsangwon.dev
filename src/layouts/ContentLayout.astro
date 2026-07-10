@@ -1,0 +1,61 @@
+---
+import { render, type CollectionEntry } from 'astro:content';
+import BaseLayout from './BaseLayout.astro';
+import {
+  collectionInfo,
+  formatDate,
+  SITE_NAME,
+  urlFor,
+  type CollectionName,
+} from '../lib/site';
+import { articleJsonLd } from '../lib/structured-data';
+
+interface Props {
+  entry: CollectionEntry<CollectionName>;
+}
+
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+const info = collectionInfo[entry.collection];
+const description = entry.data.description ?? `${info.title}에 기록한 짧은 글입니다.`;
+const canonical = new URL(Astro.url.pathname, Astro.site);
+---
+
+<BaseLayout
+  title={entry.data.title}
+  description={description}
+  type="article"
+  noindex={entry.data.draft}
+  structuredData={articleJsonLd(entry, description, canonical)}
+>
+  <article class="content">
+    <header class="content-header">
+      <p><a href={urlFor(`${entry.collection}/`)}>{info.title}</a></p>
+      <h1>{entry.data.title}</h1>
+      <p class="section-intro">{description}</p>
+      {entry.data.draft && <p class="notice"><strong>초안:</strong> 이 글은 로컬 검토용이며 production build에는 포함되지 않습니다.</p>}
+      <p class="meta">
+        <a href={urlFor('about/')}>{SITE_NAME}</a>
+        {' · 게시 '}
+        <time datetime={formatDate(entry.data.published)}>{formatDate(entry.data.published)}</time>
+        {
+          entry.data.updated && (
+            <>
+              {' · 수정 '}
+              <time datetime={formatDate(entry.data.updated)}>{formatDate(entry.data.updated)}</time>
+            </>
+          )
+        }
+      </p>
+    </header>
+    <div class="content-body">
+      <Content />
+    </div>
+    <nav class="section" aria-label={`${info.title} 글 탐색`}>
+      <ul class="plain-links">
+        <li><a href={urlFor(`${entry.collection}/`)}>{info.title} 목록</a></li>
+        <li><a href={urlFor('archive/')}>Archive</a></li>
+      </ul>
+    </nav>
+  </article>
+</BaseLayout>

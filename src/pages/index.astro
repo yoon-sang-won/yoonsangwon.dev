@@ -1,0 +1,53 @@
+---
+import EntryList from '../components/EntryList.astro';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { collectionInfo, getPublished, urlFor } from '../lib/site';
+
+const [writing, notes, lab] = await Promise.all([
+  getPublished('writing'),
+  getPublished('notes'),
+  getPublished('lab'),
+]);
+
+const sections = [
+  { key: 'writing', entries: writing.slice(0, 3) },
+  { key: 'notes', entries: notes.slice(0, 5) },
+  { key: 'lab', entries: lab.slice(0, 3) },
+] as const;
+---
+
+<BaseLayout home>
+  <nav class="section" aria-labelledby="index-heading">
+    <h2 id="index-heading">콘텐츠 인덱스</h2>
+    <ul class="entry-list">
+      {
+        sections.map(({ key }) => (
+          <li>
+            <a class="entry-title" href={urlFor(`${key}/`)}>{collectionInfo[key].title}</a>
+            <p class="entry-description">{collectionInfo[key].description}</p>
+          </li>
+        ))
+      }
+      <li><a class="entry-title" href={urlFor('archive/')}>Archive</a><p class="entry-description">날짜와 종류별 전체 기록입니다.</p></li>
+      <li><a class="entry-title" href={urlFor('about/')}>About</a></li>
+      <li><a class="entry-title" href={urlFor('colophon/')}>Colophon</a></li>
+      <li><a class="entry-title" href={urlFor('rss.xml')} aria-label="RSS로 새 글 구독하기">RSS</a></li>
+    </ul>
+  </nav>
+
+  {
+    sections.filter(({ entries }) => entries.length > 0).map(({ key, entries }) => (
+      <section class="section" aria-labelledby={`${key}-heading`}>
+        <h2 id={`${key}-heading`}><a href={urlFor(`${key}/`)}>최근 {collectionInfo[key].title}</a></h2>
+        <p class="section-intro">{collectionInfo[key].description}</p>
+        <EntryList entries={entries} />
+      </section>
+    ))
+  }
+
+  <section class="section" aria-labelledby="operation-heading">
+    <h2 id="operation-heading">운영 안내</h2>
+    <p>완성된 결론만 모으기보다 배우고 시도한 과정을 오래 남깁니다. 공개한 글은 필요할 때 수정하며 수정일을 함께 표시합니다.</p>
+    <p class="notice">이 사이트의 글은 개인 의견입니다. 업무상 비공개 정보와 제3자의 개인정보는 기록하지 않습니다.</p>
+  </section>
+</BaseLayout>

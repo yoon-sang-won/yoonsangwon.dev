@@ -1,0 +1,29 @@
+---
+import EntryList from '../components/EntryList.astro';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { getAllPublished, urlFor } from '../lib/site';
+
+const entries = await getAllPublished();
+const byYear = Map.groupBy(entries, (entry) => entry.data.published.getUTCFullYear());
+const years = [...byYear.keys()].sort((a, b) => b - a);
+---
+
+<BaseLayout title="Archive" description="Writing, Notes, Lab의 공개 글을 날짜순으로 모은 전체 기록입니다.">
+  <h1>Archive</h1>
+  <p class="section-intro">Writing, Notes, Lab의 공개 글을 게시일 역순으로 모았습니다.</p>
+  <nav aria-label="콘텐츠 종류별 목록">
+    <ul class="plain-links">
+      <li><a href={urlFor('writing/')}>Writing 목록</a></li>
+      <li><a href={urlFor('notes/')}>Notes 목록</a></li>
+      <li><a href={urlFor('lab/')}>Lab 목록</a></li>
+    </ul>
+  </nav>
+  {
+    years.length > 0 ? years.map((year) => (
+      <section class="year-group" aria-labelledby={`year-${year}`}>
+        <h2 id={`year-${year}`}>{year}</h2>
+        <EntryList entries={byYear.get(year) ?? []} showCollection />
+      </section>
+    )) : <p class="notice">공개된 글이 아직 없습니다.</p>
+  }
+</BaseLayout>
