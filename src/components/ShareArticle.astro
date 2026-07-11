@@ -1,0 +1,76 @@
+---
+interface Props {
+  title: string;
+  description: string;
+  url: URL;
+}
+
+const { title, description, url } = Astro.props;
+---
+
+<div class="share" data-share data-title={title} data-description={description} data-url={url.href}>
+  <button class="share-button" type="button" data-share-button hidden>이 글 공유하기</button>
+  <p class="share-status" data-share-status aria-live="polite"></p>
+  <div class="share-fallback" data-share-fallback hidden>
+    <label for="share-url">공유할 주소</label>
+    <input id="share-url" data-share-url type="url" value={url.href} readonly />
+  </div>
+</div>
+
+<script>
+  const share = document.querySelector<HTMLElement>('[data-share]');
+
+  if (share) {
+    const button = share.querySelector<HTMLButtonElement>('[data-share-button]');
+    const status = share.querySelector<HTMLElement>('[data-share-status]');
+    const fallback = share.querySelector<HTMLElement>('[data-share-fallback]');
+    const input = share.querySelector<HTMLInputElement>('[data-share-url]');
+    const url = share.dataset.url;
+
+    if (button && status && fallback && input && url) {
+      button.hidden = false;
+      button.textContent = typeof navigator.share === 'function' ? '이 글 공유하기' : '링크 복사';
+
+      const showManualCopy = () => {
+        fallback.hidden = false;
+        status.textContent = '아래 주소를 직접 복사해 주세요.';
+        input.focus();
+        input.select();
+      };
+
+      const copyUrl = async () => {
+        if (!navigator.clipboard?.writeText) {
+          showManualCopy();
+          return;
+        }
+
+        try {
+          await navigator.clipboard.writeText(url);
+          fallback.hidden = true;
+          status.textContent = '링크를 복사했습니다.';
+        } catch {
+          showManualCopy();
+        }
+      };
+
+      button.addEventListener('click', async () => {
+        status.textContent = '';
+
+        if (typeof navigator.share === 'function') {
+          try {
+            await navigator.share({
+              title: share.dataset.title,
+              text: share.dataset.description,
+              url,
+            });
+            return;
+          } catch (error) {
+            if (error && typeof error === 'object' && 'name' in error && error.name === 'AbortError') return;
+          }
+        }
+
+        await copyUrl();
+      });
+    }
+  }
+</script>
