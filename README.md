@@ -53,7 +53,7 @@ Notes는 `description`을 생략할 수 있습니다. 파일명이 URL이 되므
 - 모바일에서 초안을 저장한 뒤 PC에서 목록을 새로고침해 이어 쓸 수 있습니다. 저장 버튼으로 GitHub commit을 만든 내용만 기기 간에 이동하며, 공식 자동 저장·미저장 복구·기기 간 미저장 동기화는 확인되지 않았습니다. 같은 글을 여러 기기에서 동시에 편집하지 않습니다.
 - 저장소가 공개되어 있으므로 `draft: true` 파일도 GitHub에서는 보입니다. 초안에 개인정보, 비공개 업무 정보와 인증정보를 작성하지 않습니다.
 - 본문 이미지는 `public/images/content`에 저장되고 `/images/content`으로 공개됩니다. project-site base path에도 맞게 build되며 SVG는 사용하지 않습니다.
-- 파일명이 공개 URL의 일부이므로 새 글을 만들 때만 Filename을 정하고, 공개 후에는 바꾸지 않습니다.
+- 새 글 파일명과 공개 URL은 저장 시 `YYYY-MM-DD-HHMMSS.md` 형식으로 자동 생성됩니다. 생성 후에는 URL 안정성을 위해 파일명을 바꾸지 않습니다.
 - Pages CMS를 사용할 수 없을 때는 이 README의 Markdown 직접 편집 방식으로 계속 운영할 수 있습니다. 콘텐츠와 이미지는 GitHub에 남습니다.
 - Pages CMS를 제거할 때도 `.pages.yml`과 GitHub App 연결만 제거하며 기존 Markdown, 이미지와 GitHub Actions는 유지합니다. 잘못 저장한 파일과 설정은 Git history에서 복구합니다.
 

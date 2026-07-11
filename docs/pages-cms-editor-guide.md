@@ -10,7 +10,7 @@
 
 ## 새 글 작성
 
-새 글을 만들 때 Filename 입력이 나타납니다. 파일명이 공개 URL이 되므로 영문 소문자와 하이픈을 사용하고, 나중에 바꾸지 않을 주소를 입력합니다.
+새 글의 파일명은 저장 시 `YYYY-MM-DD-HHMMSS.md` 형식으로 자동 생성됩니다. Filename을 직접 입력할 필요가 없으며 생성된 파일명은 공개 URL의 일부가 됩니다.
 
 ### Writing
 
@@ -34,7 +34,7 @@
 npm run dev
 ```
 
-예: `http://localhost:4321/writing/파일명/`
+예: `http://localhost:4321/writing/2026-07-11-143025/`
 
 초안은 production 목록, 상세 경로, Archive, RSS와 sitemap에 나타나지 않습니다. 글을 공개하려면 CMS에서 초안 스위치를 끄고 저장한 뒤 GitHub Actions가 완료될 때까지 기다립니다.
 
@@ -58,7 +58,9 @@ GitHub 저장소가 공개되어 있으면 `draft: true` 파일도 GitHub에서 
 
 ## 본문 편집
 
-본문은 Markdown rich-text 편집기입니다. Editor 모드에서 제목, 소제목, 문단, 굵게, 기울임, 링크, 인용, 순서·비순서 목록, 인라인 코드, 코드 블록과 구분선을 사용할 수 있습니다. Source 모드로 Markdown 원문을 확인하거나 직접 고칠 수 있습니다.
+제목 바로 아래에 Markdown rich-text 본문 편집기가 표시됩니다. Editor 모드에서 `/`를 입력하면 제목, 소제목, 목록, 인용, 코드와 이미지 같은 블록을 선택할 수 있습니다. 텍스트를 선택하면 굵게, 기울임과 링크 같은 서식을 적용할 수 있으며 Source 모드에서는 Markdown 원문을 확인하거나 직접 고칠 수 있습니다.
+
+Hosted Pages CMS의 편집기는 네이버 블로그처럼 화면 위에 고정된 전체 서식 도구 모음을 제공하지 않으며 `.pages.yml`로 편집기 UI나 높이를 바꿀 수 없습니다. 이 프로젝트는 Pages CMS가 공식 제공하는 WYSIWYG Editor와 Source 전환을 사용하고, 작성 흐름을 위해 제목 다음에 본문을 먼저 배치합니다. 고정 툴바형 편집기가 반드시 필요하면 Pages CMS와 정적 GitHub Pages 범위를 벗어난 별도 관리 시스템과 인증 서버를 검토해야 합니다.
 
 현재 글에 Astro component, MDX, custom directive는 없지만, 새로운 특수 문법을 저장할 때는 Source 모드에서 원문을 확인하고 저장 후 GitHub diff에서 본문 손실이 없는지 확인합니다.
 
@@ -95,7 +97,7 @@ GitHub에서 잘못 저장된 파일의 `History`를 열고 정상 commit의 파
 - `draft`가 켜져 있지 않은지 확인합니다.
 - `published`가 실제 공개일인지 확인합니다.
 - `updated`가 있다면 `published` 이후인지 확인합니다.
-- 파일명과 URL에 오타가 없는지 확인합니다.
+- GitHub에 자동 생성된 파일명과 URL이 겹치지 않는지 확인합니다.
 - GitHub Actions의 build 로그를 확인합니다.
 - build가 성공했는데도 보이지 않으면 Pages 배포 완료와 브라우저 캐시를 확인합니다.
 - 이미지가 깨지면 파일 확장자, 저장 위치와 `/images/content` 경로를 확인합니다.

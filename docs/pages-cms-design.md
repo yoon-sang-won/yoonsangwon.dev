@@ -43,13 +43,13 @@ Astro schema의 실제 필드는 다음과 같다.
 - `published`와 `updated`는 `yyyy-MM-dd`로 저장한다. `updated`는 비워 둘 수 있다.
 - 새 글은 `draft: true`로 시작한다.
 - 목록은 제목, 초안, 게시일, 수정일을 보여 주고 게시일 내림차순으로 정렬한다. 검색은 실제 존재하는 제목과 설명만 대상으로 한다.
-- 파일명은 생성할 때만 입력한다. 생성 후 rename은 막고 delete는 허용한다.
+- 파일명은 생성 시 현재 날짜와 시간을 사용한 `YYYY-MM-DD-HHMMSS.md` 형식으로 자동 생성한다. 생성 후 rename은 막고 delete는 허용한다.
 - `settings.content.merge: true`로 CMS가 모르는 기존 frontmatter 키와 본문을 보존하도록 한다.
 - commit template은 Pages CMS가 제공하는 `{path}`와 `{filename}` 토큰만 사용한다.
 
 ### 파일명과 URL
 
-현재 상세 route는 `entry.id`를 사용하므로 파일명이 곧 공개 URL의 일부다. 파일명은 frontmatter `slug`로 대체되지 않는다. 새 글을 만들 때 표시되는 Filename 입력에서 영문 소문자와 하이픈으로 URL 역할의 파일명을 정하고, 공개 후에는 바꾸지 않는다. URL을 바꿔야 하면 기존 주소에서 새 주소로 수동 redirect를 검토해야 한다.
+현재 상세 route는 `entry.id`를 사용하므로 파일명이 곧 공개 URL의 일부다. 파일명은 frontmatter `slug`로 대체되지 않는다. Hosted 편집 화면에서 빈 Filename 값이 `.md`로 남아 저장 오류가 발생하지 않도록 Filename 입력을 숨기고, 생성 시각으로 안전한 ASCII 파일명을 자동 생성한다. 공개 후에는 파일명을 바꾸지 않는다. URL을 바꿔야 하면 기존 주소에서 새 주소로 수동 redirect를 검토해야 한다.
 
 ## Draft 공개 흐름
 

@@ -29,9 +29,7 @@ content:
     path: src/content/writing
     format: yaml-frontmatter
     subfolders: false
-    filename:
-      template: "{primary}.md"
-      field: create
+    filename: "{year}-{month}-{day}-{hour}{minute}{second}.md"
     operations:
       create: true
       rename: false
@@ -50,7 +48,17 @@ content:
         label: 제목
         type: string
         required: true
-        description: 표시할 제목입니다. 파일명과 공개 URL은 별도로 생성할 때 입력합니다.
+        description: 표시할 제목입니다. 파일명과 공개 URL은 저장 시 자동 생성됩니다.
+      - name: body
+        label: 본문
+        type: rich-text
+        description: Editor 모드에서 /를 입력해 제목, 목록, 인용, 코드와 이미지를 삽입할 수 있습니다. Markdown 원문은 Source 모드에서 확인합니다.
+        options:
+          format: markdown
+          switcher: true
+          media: content_images
+          rename: random
+          extensions: [png, jpg, jpeg, webp, avif, gif]
       - name: description
         label: 설명
         type: text
@@ -75,26 +83,13 @@ content:
         type: boolean
         default: true
         description: 켜져 있으면 production 사이트에서 숨겨집니다.
-      - name: body
-        label: 본문
-        type: rich-text
-        description: Markdown 본문입니다. 원문이 중요하면 Source 모드에서 확인합니다.
-        options:
-          format: markdown
-          switcher: true
-          media: content_images
-          rename: random
-          extensions: [png, jpg, jpeg, webp, avif, gif]
-
   - name: notes
     label: Notes
     type: collection
     path: src/content/notes
     format: yaml-frontmatter
     subfolders: false
-    filename:
-      template: "{primary}.md"
-      field: create
+    filename: "{year}-{month}-{day}-{hour}{minute}{second}.md"
     operations:
       create: true
       rename: false
@@ -113,7 +108,17 @@ content:
         label: 제목
         type: string
         required: true
-        description: 표시할 제목입니다. 파일명과 공개 URL은 별도로 생성할 때 입력합니다.
+        description: 표시할 제목입니다. 파일명과 공개 URL은 저장 시 자동 생성됩니다.
+      - name: body
+        label: 본문
+        type: rich-text
+        description: Editor 모드에서 /를 입력해 제목, 목록, 인용, 코드와 이미지를 삽입할 수 있습니다. Markdown 원문은 Source 모드에서 확인합니다.
+        options:
+          format: markdown
+          switcher: true
+          media: content_images
+          rename: random
+          extensions: [png, jpg, jpeg, webp, avif, gif]
       - name: description
         label: 설명
         type: text
@@ -137,26 +142,13 @@ content:
         type: boolean
         default: true
         description: 켜져 있으면 production 사이트에서 숨겨집니다.
-      - name: body
-        label: 본문
-        type: rich-text
-        description: Markdown 본문입니다. 원문이 중요하면 Source 모드에서 확인합니다.
-        options:
-          format: markdown
-          switcher: true
-          media: content_images
-          rename: random
-          extensions: [png, jpg, jpeg, webp, avif, gif]
-
   - name: lab
     label: Lab
     type: collection
     path: src/content/lab
     format: yaml-frontmatter
     subfolders: false
-    filename:
-      template: "{primary}.md"
-      field: create
+    filename: "{year}-{month}-{day}-{hour}{minute}{second}.md"
     operations:
       create: true
       rename: false
@@ -175,7 +167,17 @@ content:
         label: 제목
         type: string
         required: true
-        description: 표시할 제목입니다. 파일명과 공개 URL은 별도로 생성할 때 입력합니다.
+        description: 표시할 제목입니다. 파일명과 공개 URL은 저장 시 자동 생성됩니다.
+      - name: body
+        label: 본문
+        type: rich-text
+        description: Editor 모드에서 /를 입력해 제목, 목록, 인용, 코드와 이미지를 삽입할 수 있습니다. Markdown 원문은 Source 모드에서 확인합니다.
+        options:
+          format: markdown
+          switcher: true
+          media: content_images
+          rename: random
+          extensions: [png, jpg, jpeg, webp, avif, gif]
       - name: description
         label: 설명
         type: text
@@ -200,13 +202,3 @@ content:
         type: boolean
         default: true
         description: 켜져 있으면 production 사이트에서 숨겨집니다.
-      - name: body
-        label: 본문
-        type: rich-text
-        description: Markdown 본문입니다. 원문이 중요하면 Source 모드에서 확인합니다.
-        options:
-          format: markdown
-          switcher: true
-          media: content_images
-          rename: random
-          extensions: [png, jpg, jpeg, webp, avif, gif]

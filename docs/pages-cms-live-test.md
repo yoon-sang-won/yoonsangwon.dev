@@ -2,6 +2,10 @@
 
 검증일: 2026-07-11
 
+## Hosted 새 글 저장 오류와 수정
+
+Writing 새 글 화면에서 제목과 설명을 입력해도 Filename이 `.md`로 남았고 저장 시 `Invalid extension "" for content "writing"` 오류가 표시됐다. GitHub에는 콘텐츠 commit이 생성되지 않았다. 원인은 수동 Filename 필드가 비어 있는 상태에서 확장자만 남은 것이며, 세 collection의 파일명을 생성 시각 기반 `YYYY-MM-DD-HHMMSS.md`로 자동 생성하도록 변경했다. 제목 다음에 rich-text 본문을 배치해 작성 동선도 줄였다. 실제 Hosted 저장 성공 여부는 이 설정을 `main`에 반영한 뒤 새 초안 생성·삭제로 다시 확인한다.
+
 ## 결론
 
 현재 local worktree와 원격 GitHub 저장소에서는 Pages CMS가 실제로 생성·수정·삭제한 콘텐츠 커밋을 확인할 수 없다. 사용자가 웹 에디터에서 테스트했다고 알려 주었지만, 현재 확인 가능한 Git 증거와 원격 branch 상태에는 그 결과가 반영되어 있지 않다.

@@ -131,10 +131,10 @@
 ## URL 검수
 
 - Astro 상세 route는 `entry.id`를 사용하고 파일명이 공개 URL의 일부다.
-- CMS filename input은 생성할 때만 표시된다.
+- CMS filename input은 숨기고 생성 시각 기반 ASCII 파일명을 자동 생성한다.
 - `rename: false`로 기존 URL 변경을 막는다.
 - `subfolders: false`로 현재 flat collection 구조를 유지한다.
-- 한글 제목은 표시용 제목이며 URL 파일명은 생성 화면의 Filename 입력에서 별도로 정한다. 문서에는 영문 소문자와 하이픈 사용을 안내했다.
+- 한글 제목은 표시용 제목이며 URL 파일명은 제목과 분리해 생성 시각으로 자동 생성한다. 빈 Filename이 `.md`로 남아 발생하는 저장 오류와 한글 slug 변환 불확실성을 함께 피한다.
 - 기존 콘텐츠 파일은 수정하지 않았으므로 기존 공개 URL은 변경되지 않았다.
 - 삭제는 파일을 제거하므로 Archive와 목록은 다음 build에서 자동으로 사라진다. 외부에 공유된 URL의 redirect는 자동 생성되지 않는다.
 
@@ -190,9 +190,9 @@
 1. GitHub App 권한을 이 저장소 하나로 제한한다.
 2. `Writing`, `Notes`, `Lab` 세 collection이 보이는지 확인한다.
 3. 기존 파일을 열어 제목·설명·게시일·본문이 보이는지 확인하되 첫 확인에서는 저장하지 않는다.
-4. 새 글 생성 시 Filename 입력이 생성 화면에만 보이는지 확인한다.
+4. 새 글 생성 시 Filename 입력이 보이지 않고 저장 후 날짜·시간 기반 파일명이 생기는지 확인한다.
 5. 새 글을 초안으로 저장하고 GitHub diff에서 `draft: true`, `updated` 빈 값, 본문을 확인한다.
-6. 한글 제목을 입력해도 Filename을 영문 소문자와 하이픈으로 직접 정할 수 있는지 확인한다.
+6. 한글 제목을 입력해도 파일명은 안전한 ASCII 숫자 형식으로 생성되는지 확인한다.
 7. Source 모드 전환과 이미지 alt 입력을 확인한다.
 8. 이미지 업로드 후 `public/images/content` 경로와 랜덤 파일명을 확인한다.
 9. project-site Pages URL에서 실제 이미지가 `/yoonsangwon.dev/images/content/...`로 열리는지 확인한다.
