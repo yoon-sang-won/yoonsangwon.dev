@@ -1,3 +1,4 @@
+# Reload Pages CMS configuration
 media:
   - name: content_images
     label: 본문 이미지
