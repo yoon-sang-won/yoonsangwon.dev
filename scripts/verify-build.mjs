@@ -47,6 +47,13 @@ for (const file of htmlFiles) {
     const candidate = path.extname(target) ? target : path.join(target, 'index.html');
     await assert.doesNotReject(access(candidate), `${file}: 깨진 내부 URL ${href}`);
   }
+
+  for (const [, src] of html.matchAll(/src="(\/[^"#?]*)/g)) {
+    assert(
+      !base || src === base || src.startsWith(`${base}/`),
+      `${file}: base 밖의 asset URL ${src}`,
+    );
+  }
 }
 
 const home = await readFile(path.join(dist, 'index.html'), 'utf8');

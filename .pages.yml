@@ -1,0 +1,212 @@
+media:
+  - name: content_images
+    label: 본문 이미지
+    input: public/images/content
+    output: /images/content
+    rename: random
+    extensions: [png, jpg, jpeg, webp, avif, gif]
+    categories: [image]
+    commit:
+      templates:
+        create: "media: add {filename} via Pages CMS"
+        update: "media: update {filename} via Pages CMS"
+        delete: "media: delete {filename} via Pages CMS"
+
+settings:
+  content:
+    merge: true
+  commit:
+    identity: app
+    templates:
+      create: "content: create {path} via Pages CMS"
+      update: "content: update {path} via Pages CMS"
+      delete: "content: delete {path} via Pages CMS"
+
+content:
+  - name: writing
+    label: Writing
+    type: collection
+    path: src/content/writing
+    format: yaml-frontmatter
+    subfolders: false
+    filename:
+      template: "{primary}.md"
+      field: create
+    operations:
+      create: true
+      rename: false
+      delete: true
+    view:
+      fields: [title, draft, published, updated]
+      primary: title
+      sort: [published, updated, title]
+      search: [title, description]
+      default:
+        sort: published
+        order: desc
+      layout: list
+    fields:
+      - name: title
+        label: 제목
+        type: string
+        required: true
+        description: 표시할 제목입니다. 파일명과 공개 URL은 별도로 생성할 때 입력합니다.
+      - name: description
+        label: 설명
+        type: text
+        required: true
+        description: 목록과 페이지 설명에 사용할 짧은 요약입니다.
+      - name: published
+        label: 게시일
+        type: date
+        required: true
+        description: 처음 공개할 날짜입니다.
+        options:
+          format: yyyy-MM-dd
+      - name: updated
+        label: 수정일
+        type: date
+        default: ""
+        description: 실제 내용을 고친 경우에만 입력합니다. 필요 없으면 비워 둡니다.
+        options:
+          format: yyyy-MM-dd
+      - name: draft
+        label: 초안
+        type: boolean
+        default: true
+        description: 켜져 있으면 production 사이트에서 숨겨집니다.
+      - name: body
+        label: 본문
+        type: rich-text
+        description: Markdown 본문입니다. 원문이 중요하면 Source 모드에서 확인합니다.
+        options:
+          format: markdown
+          switcher: true
+          media: content_images
+          rename: random
+          extensions: [png, jpg, jpeg, webp, avif, gif]
+
+  - name: notes
+    label: Notes
+    type: collection
+    path: src/content/notes
+    format: yaml-frontmatter
+    subfolders: false
+    filename:
+      template: "{primary}.md"
+      field: create
+    operations:
+      create: true
+      rename: false
+      delete: true
+    view:
+      fields: [title, draft, published, updated]
+      primary: title
+      sort: [published, updated, title]
+      search: [title, description]
+      default:
+        sort: published
+        order: desc
+      layout: list
+    fields:
+      - name: title
+        label: 제목
+        type: string
+        required: true
+        description: 표시할 제목입니다. 파일명과 공개 URL은 별도로 생성할 때 입력합니다.
+      - name: description
+        label: 설명
+        type: text
+        description: 필요할 때 목록과 페이지 설명에 사용할 짧은 요약입니다.
+      - name: published
+        label: 게시일
+        type: date
+        required: true
+        description: 처음 공개할 날짜입니다.
+        options:
+          format: yyyy-MM-dd
+      - name: updated
+        label: 수정일
+        type: date
+        default: ""
+        description: 실제 내용을 고친 경우에만 입력합니다. 필요 없으면 비워 둡니다.
+        options:
+          format: yyyy-MM-dd
+      - name: draft
+        label: 초안
+        type: boolean
+        default: true
+        description: 켜져 있으면 production 사이트에서 숨겨집니다.
+      - name: body
+        label: 본문
+        type: rich-text
+        description: Markdown 본문입니다. 원문이 중요하면 Source 모드에서 확인합니다.
+        options:
+          format: markdown
+          switcher: true
+          media: content_images
+          rename: random
+          extensions: [png, jpg, jpeg, webp, avif, gif]
+
+  - name: lab
+    label: Lab
+    type: collection
+    path: src/content/lab
+    format: yaml-frontmatter
+    subfolders: false
+    filename:
+      template: "{primary}.md"
+      field: create
+    operations:
+      create: true
+      rename: false
+      delete: true
+    view:
+      fields: [title, draft, published, updated]
+      primary: title
+      sort: [published, updated, title]
+      search: [title, description]
+      default:
+        sort: published
+        order: desc
+      layout: list
+    fields:
+      - name: title
+        label: 제목
+        type: string
+        required: true
+        description: 표시할 제목입니다. 파일명과 공개 URL은 별도로 생성할 때 입력합니다.
+      - name: description
+        label: 설명
+        type: text
+        required: true
+        description: 목록과 페이지 설명에 사용할 짧은 요약입니다.
+      - name: published
+        label: 게시일
+        type: date
+        required: true
+        description: 처음 공개할 날짜입니다.
+        options:
+          format: yyyy-MM-dd
+      - name: updated
+        label: 수정일
+        type: date
+        default: ""
+        description: 실제 내용을 고친 경우에만 입력합니다. 필요 없으면 비워 둡니다.
+        options:
+          format: yyyy-MM-dd
+      - name: draft
+        label: 초안
+        type: boolean
+        default: true
+        description: 켜져 있으면 production 사이트에서 숨겨집니다.
+      - name: body
+        label: 본문
+        type: rich-text
+        description: Markdown 본문입니다. 원문이 중요하면 Source 모드에서 확인합니다.
+        options:
+          format: markdown
+          switcher: true
+          media: content_images
+          rename: random
+          extensions: [png, jpg, jpeg, webp, avif, gif]

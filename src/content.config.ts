@@ -5,7 +5,10 @@ import { z } from 'astro/zod';
 const commonFields = {
   title: z.string().trim().min(1),
   published: z.coerce.date(),
-  updated: z.coerce.date().optional(),
+  updated: z.preprocess(
+    (value) => (value === '' || value == null ? undefined : value),
+    z.coerce.date().optional(),
+  ),
   draft: z.boolean().default(false),
 };
 
