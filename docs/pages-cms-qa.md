@@ -202,7 +202,7 @@
 
 ## main 병합 전 판단
 
-로컬 검증 기준으로는 **조건부 병합 가능**이다. 다음 hosted 확인을 완료한 뒤 병합한다.
+저장 오류 수정 범위는 **병합 가능**이다. Writing, Notes, Lab의 실제 초안 생성·삭제와 production 제외를 확인했다. 이미지·공개 전환·다중 기기 테스트는 실제 운영 첫 글에서 계속 확인한다.
 
 - 실제 Pages CMS 로그인과 저장소 권한 확인
 - 기존 글 한 개의 저장 전후 diff 확인
@@ -216,16 +216,16 @@
 | 항목 | 판정 | 이유와 남은 확인 |
 | --- | --- | --- |
 | `.pages.yml` 설정 준비 상태 | **준비됨** | 공식 2.1.8 schema, 실제 경로·필드와 YAML parsing을 다시 대조했다. |
-| Writing 관리 준비 상태 | **조건부 준비됨** | local 설정과 fixture는 통과했다. Hosted 화면의 목록·생성·수정·삭제를 확인해야 한다. |
-| Notes 관리 준비 상태 | **조건부 준비됨** | 선택적 description을 포함한 local schema는 일치한다. Hosted 저장 결과를 확인해야 한다. |
-| Lab 관리 준비 상태 | **조건부 준비됨** | 실제 schema에 없는 status를 추가하지 않았다. Hosted 저장 결과를 확인해야 한다. |
-| 초안 및 공개 전환 준비 상태 | **조건부 준비됨** | local production build에서 draft 제외는 통과했다. 실제 CMS commit과 Actions 전환은 미검증이다. |
+| Writing 관리 준비 상태 | **준비됨** | Hosted Editor 입력, 자동 파일명, 초안 생성 commit과 삭제 commit을 확인했다. |
+| Notes 관리 준비 상태 | **준비됨** | 선택적 description, Source Markdown, 자동 파일명과 삭제를 확인했다. |
+| Lab 관리 준비 상태 | **준비됨** | 필수 description, Editor 본문, 자동 파일명과 삭제를 확인했다. |
+| 초안 및 공개 전환 준비 상태 | **조건부 준비됨** | 실제 `draft: true` 저장과 production 제외는 통과했다. `draft: false` 공개 전환은 이번 테스트에서 수행하지 않았다. |
 | 모바일·PC 다중 기기 작성 준비 상태 | **조건부 준비됨** | GitHub에 저장된 초안을 다시 여는 운영 절차는 준비됐다. 실제 두 기기 테스트가 필요하다. |
 | 이미지 업로드 준비 상태 | **조건부 준비됨** | 확장자·경로·base 변환 fixture는 통과했다. Hosted 업로드와 실제 이미지 표시를 확인해야 한다. |
 | 기존 콘텐츠 안전성 | **조건부 준비됨** | 기존 5개 파일은 변경하지 않았고 전체 parsing이 통과했다. Hosted rich-text 저장 전후 diff 확인이 필요하다. |
 | GitHub Pages 배포 안정성 | **준비됨** | 기본 build와 실제 `/yoonsangwon.dev` base build, verifier가 모두 통과했다. |
-| Hosted Pages CMS 연결 준비 상태 | **조건부 준비됨** | local 설정은 준비됐지만 원격 branch push, 로그인과 GitHub App 권한 확인이 필요하다. |
-| main 병합 준비 상태 | **조건부 준비됨** | 34단계 Hosted 테스트와 실제 Actions 배포를 마친 뒤 병합한다. |
+| Hosted Pages CMS 연결 준비 상태 | **준비됨** | 로그인, 원격 branch, 세 collection 목록과 실제 생성·삭제 저장을 확인했다. |
+| main 병합 준비 상태 | **준비됨** | 저장 오류 수정과 세 collection 회귀 검증이 통과했다. 남은 운영 시나리오는 별도 후속 확인이다. |
 
 ## 롤백
 
